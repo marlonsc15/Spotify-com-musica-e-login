@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Spotify</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+	<div class="sidebar">
+		<div class="sidebar-wraper">
+
+			<div class="sidebar_logo">
+				<img src="imagens/logo.png">
+			</div><!-- sidebar logo -->
+
+			<div class="sidebar_menu">
+				<a class="sidebar_menu_selecionado" href="#"><i class="fa-solid fa-house"></i>Inicio<a>
+				<a href="#"><i class="fa-solid fa-magnifying-glass"></i> Buscar<a>
+				<a href="#"><i class="fas fa-database"></i>Biblioteca<a>
+			</div><!-- sidebar-menu -->
+
+			<div class="sidebar_menu">
+				<p class="sidebar_menu_title">Playlist</p>
+
+				<div class="sidebar_menu_item">
+					<div class="sidebar_menu_item_componente">
+						+
+					</div>
+					<span>Criar Playlist</span>
+				</div><!-- sidebar-menu-item -->
+
+			</br>
+
+				<div class="sidebar_menu_item">
+					<div class="sidebar_menu_item_componente">
+						+
+					</div>
+						
+					<span>Musicas Curtidas</span>
+				</div><!-- sidebar-menu-item -->
+
+			</div><!-- sidebar-menu -->
+
+			<div class="sidebar_playlists">
+				<a href="#">Playlist 1</a>
+				<a href="#">Playlist 2</a>
+				<a href="#">Playlist 3</a>
+				<a href="#">Playlist 4</a>
+				<a href="#">Playlist 5</a>
+			</div>
+
+		</div><!-- sidebar-wraper -->
+	</div><!-- sidebar -->
+
+	<div class="main">
+		<div class="main-wraper">
+
+			<div class="main_row">
+				<div class="main_row_title"><h2>Minhas Musicas</h2></div>
+
+				
+
+				<div class="main_col" data-image="imagens/calvin" data-artist="Meu" data-song="None of My Business" data-file="musicas/None of My Business.mp3">
+					<img src="imagens/calvin.jfif">
+					<h3>Mix relax</h3>
+					<p>descricao</p>
+				</div>		
+
+				<div class="main_col" data-image="imagens/AndyMineo2" data-artist="Andy" data-song="None of My Business" data-file="musicas/None of My Business.mp3">
+					<img src="imagens/AndyMineo2.jfif">
+					<h3>None of My Business</h3>
+					<p>descricao</p>
+				</div>
+
+				<div class="main_col" data-image="imagens/AndyMineo" data-artist="Andy" data-song="Not Gon' Do" data-file="musicas/Not Gon Do.mp3">
+					<img src="imagens/AndyMineo.jfif">
+					<h3>Not Gon' Do</h3>
+					<p>descricao</p>
+				</div>
+
+				
+
+				
+				
+			</div><!-- main_row -->
+			
+		</div><!-- main-wraper -->
+		
+	</div>
+
+	<div class="player">
+		<div class="player_artist">
+			
+		</div>
+		<div class="player_control">
+			<div class="player_control_button">
+				<a href=""><img src="imagens/backward-step-solid.svg" ></a>
+				<a style="display: none;" id="pauseBtn" href="" ><img src="imagens/pause-solid.svg"></a>
+				<a id="playBtn" href=""><img src="imagens/circle-play-solid.svg"></a>
+				<a href=""><img src="imagens/forward-step-solid.svg"></a>
+			</div>
+
+			<div class="player_control_progress">
+				<div style="width: 0%;" class="player_control_progress_2">
+
+				</div>
+			</div>
+		
+			
+		</div>
+	</div><!-- player -->
+
+	<audio id="audioplayer" style="position:absolute;left: 0; top: 0;z-index: -999;opacity: 0;" controls="">
+
+	</audio>
+
+	<script src="js/all.min.js"></script>
+
+	<script>
+
+		var audioPlayer = document.getElementById('audioplayer');
+		var loaded = false;
+
+		var playBtn = document.getElementById('playBtn');
+		var pauseBtn = document.getElementById('pauseBtn');
+
+		pauseBtn.addEventListener('click',(e)=>{
+			e.preventDefault();
+			
+			playBtn.style.display = "inline";
+			pauseBtn.style.display = "none";
+			audioPlayer.pause();
+			return false;
+		});
+
+		playBtn.addEventListener('click',(e)=>{
+			e.preventDefault();
+			
+			playBtn.style.display = "none";
+			pauseBtn.style.display = "inline";
+			audioPlayer.play();
+			return false;
+		});
+
+		const playSong = (File) => {
+
+			if( loaded == false){
+				audioPlayer.innerHTML = `<source src="`+File+`" type="audio/mp3" />`
+				loaded = true;
+			}
+
+			audioPlayer.play();
+
+			playBtn.style.display = "none";
+			pauseBtn.style.display = "inline";
+			
+		}
+
+		document.querySelectorAll('.main_col').forEach(item =>{
+			item.addEventListener('click',event=>{
+
+				let image = item.getAttribute('data-image');
+				let artist = item.getAttribute('data-artist');
+				let song = item.getAttribute('data-song');
+				let file = item.getAttribute('data-file');
+
+				let playerArtistComponent = document.getElementsByClassName('player_artist');
+
+				playerArtistComponent[0].innerHTML = `
+					<img src="`+image+`" />
+					<h3>`+artist+`<br/><span>`+song+`</span></h3>
+
+				`;
+				playSong(file);
+			})
+
+		});
+	</script>
+</body>
+</html>
